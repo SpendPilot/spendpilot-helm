@@ -28,7 +28,7 @@ spec:
             - containerPort: 3000
           envFrom:
             - configMapRef:
-                name: spend-control-config
+                name: {{ include "business-ai-app.configMapName" . }}
           readinessProbe:
             httpGet:
               path: /

@@ -29,15 +29,15 @@ helm upgrade --install spend-control repos/spendpilot-helm/charts/spendpilot \
 Important values:
 
 - image repositories and tag
-- `auth.frontendClientId`
-- `auth.backendClientId`
-- `auth.backendAudience`
-- `auth.apiScope`
-- `azure.managedIdentityClientId`
-- `azure.aiFoundryEndpoint`
-- `azure.documentIntelligenceEndpoint`
-- `azure.storageAccountUrl`
-- `secrets.databaseUrl`
+- `config.create` and `config.existingConfigMapName`
+- `serviceAccount.create`
+- `secrets.create` and `secrets.existingSecretName`
+
+Platform bootstrap note:
+
+- for prod, Terraform can pre-create the namespace, workload identity service account, runtime `ConfigMap`, and runtime `Secret`
+- in that mode, set `config.create=false`, `serviceAccount.create=false`, and `secrets.create=false`
+- the application chart then consumes the stable in-cluster names instead of requiring Terraform outputs to be copied into Helm values
 
 Auth note:
 

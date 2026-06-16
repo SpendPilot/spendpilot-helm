@@ -34,9 +34,9 @@ spec:
               value: {{ .Values.identityService.appModule | quote }}
           envFrom:
             - configMapRef:
-                name: spend-control-config
+                name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
-                name: spend-control-secrets
+                name: {{ include "business-ai-app.secretName" . }}
           readinessProbe:
             httpGet:
               path: /ready
@@ -84,9 +84,9 @@ spec:
               value: {{ .Values.financeService.appModule | quote }}
           envFrom:
             - configMapRef:
-                name: spend-control-config
+                name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
-                name: spend-control-secrets
+                name: {{ include "business-ai-app.secretName" . }}
           readinessProbe:
             httpGet:
               path: /ready
@@ -134,9 +134,9 @@ spec:
               value: {{ .Values.documentsService.appModule | quote }}
           envFrom:
             - configMapRef:
-                name: spend-control-config
+                name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
-                name: spend-control-secrets
+                name: {{ include "business-ai-app.secretName" . }}
           readinessProbe:
             httpGet:
               path: /ready
@@ -181,7 +181,7 @@ spec:
               value: migration-job
           envFrom:
             - configMapRef:
-                name: spend-control-config
+                name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
-                name: spend-control-secrets
+                name: {{ include "business-ai-app.secretName" . }}
 {{- end }}

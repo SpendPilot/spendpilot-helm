@@ -21,6 +21,10 @@ serviceAccount:
   name: spend-control-workload
   annotations: {}
 
+config:
+  create: true
+  existingConfigMapName: ""
+
 imagePullSecrets: []
 
 rollout:
@@ -161,5 +165,6 @@ azure:
 
 secrets:
   create: true
+  existingSecretName: ""
   databaseUrl: ""
   devAuthSecret: "dev-only-secret-change-me"

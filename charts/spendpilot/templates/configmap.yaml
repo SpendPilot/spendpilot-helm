@@ -1,7 +1,8 @@
+{{- if .Values.config.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: spend-control-config
+  name: {{ include "business-ai-app.configMapName" . }}
   namespace: {{ include "business-ai-app.namespace" . }}
 data:
   APP_ENV: {{ .Values.env.appEnv | quote }}
@@ -29,3 +30,4 @@ data:
   NEXT_PUBLIC_ENTRA_BACKEND_AUDIENCE: {{ .Values.auth.backendAudience | quote }}
   NEXT_PUBLIC_ENTRA_API_SCOPE: {{ .Values.auth.apiScope | quote }}
   NEXT_PUBLIC_ENTRA_AUTHORITY: {{ .Values.auth.authority | quote }}
+{{- end }}
