@@ -25,3 +25,11 @@ spend-control-config
 spend-control-secrets
 {{- end -}}
 {{- end -}}
+
+{{- define "business-ai-app.secretProviderClassName" -}}
+{{- if .Values.keyVault.secretProviderClassName -}}
+{{- .Values.keyVault.secretProviderClassName -}}
+{{- else -}}
+spend-control-secrets-provider
+{{- end -}}
+{{- end -}}

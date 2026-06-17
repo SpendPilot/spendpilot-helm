@@ -21,12 +21,27 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
 {{- end }}
+{{- if .Values.keyVault.enabled }}
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+{{- end }}
       containers:
         - name: identity
           image: "{{ .Values.identityService.image.repository }}:{{ .Values.identityService.image.tag }}"
           imagePullPolicy: {{ .Values.identityService.image.pullPolicy }}
           ports:
             - containerPort: 8000
+{{- if .Values.keyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store
+              mountPath: {{ .Values.keyVault.mountPath | quote }}
+              readOnly: true
+{{- end }}
           env:
             - name: SERVICE_NAME
               value: identity-service
@@ -69,12 +84,27 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
 {{- end }}
+{{- if .Values.keyVault.enabled }}
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+{{- end }}
       containers:
         - name: finance
           image: "{{ .Values.financeService.image.repository }}:{{ .Values.financeService.image.tag }}"
           imagePullPolicy: {{ .Values.financeService.image.pullPolicy }}
           ports:
             - containerPort: 8000
+{{- if .Values.keyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store
+              mountPath: {{ .Values.keyVault.mountPath | quote }}
+              readOnly: true
+{{- end }}
           env:
             - name: SERVICE_NAME
               value: finance-service
@@ -117,12 +147,27 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
 {{- end }}
+{{- if .Values.keyVault.enabled }}
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+{{- end }}
       containers:
         - name: documents
           image: "{{ .Values.documentsService.image.repository }}:{{ .Values.documentsService.image.tag }}"
           imagePullPolicy: {{ .Values.documentsService.image.pullPolicy }}
           ports:
             - containerPort: 8000
+{{- if .Values.keyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store
+              mountPath: {{ .Values.keyVault.mountPath | quote }}
+              readOnly: true
+{{- end }}
           env:
             - name: SERVICE_NAME
               value: documents-service
@@ -165,11 +210,26 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
 {{- end }}
+{{- if .Values.keyVault.enabled }}
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+{{- end }}
       containers:
         - name: migrate
           image: "{{ .Values.migrationJob.image.repository }}:{{ .Values.migrationJob.image.tag }}"
           imagePullPolicy: {{ .Values.migrationJob.image.pullPolicy }}
           command: ["sh", "-c", "alembic upgrade head"]
+{{- if .Values.keyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store
+              mountPath: {{ .Values.keyVault.mountPath | quote }}
+              readOnly: true
+{{- end }}
           env:
             - name: SERVICE_NAME
               value: migration-job

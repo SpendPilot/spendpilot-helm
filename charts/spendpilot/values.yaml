@@ -160,6 +160,14 @@ azure:
   storageAccountUrl: ""
   storageContainerName: expense-documents
 
+keyVault:
+  enabled: false
+  name: ""
+  secretProviderClassName: spend-control-secrets-provider
+  mountPath: /mnt/secrets-store
+  databaseUrlSecretName: spend-control-database-url
+  devAuthSecretSecretName: spend-control-dev-auth-secret
+
 secrets:
   create: true
   existingSecretName: ""

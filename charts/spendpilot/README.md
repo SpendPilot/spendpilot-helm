@@ -32,12 +32,13 @@ Important values:
 - `config.create` and `config.existingConfigMapName`
 - `serviceAccount.create`
 - `secrets.create` and `secrets.existingSecretName`
+- `keyVault.enabled`, `keyVault.name`, and `azure.managedIdentityClientId` for Azure Key Vault-backed runtime secrets
 
 Platform bootstrap note:
 
-- for prod, Terraform can pre-create the namespace, workload identity service account, runtime `ConfigMap`, and runtime `Secret`
-- in that mode, set `config.create=false`, `serviceAccount.create=false`, and `secrets.create=false`
-- the application chart then consumes the stable in-cluster names instead of requiring Terraform outputs to be copied into Helm values
+- for prod, Terraform can pre-create the namespace, workload identity service account, and runtime `ConfigMap`
+- if Azure Key Vault integration is enabled, set `config.create=false`, `serviceAccount.create=false`, `secrets.create=false`, and `keyVault.enabled=true`
+- the chart will render a `SecretProviderClass`, mount the Secrets Store CSI volume into the backend pods, and sync the named Key Vault secrets into the stable in-cluster secret name consumed by the apps
 
 Auth note:
 
