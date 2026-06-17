@@ -54,10 +54,9 @@ frontend:
 
 identityService:
   image:
-    repository: spendcontrol/backend
+    repository: spendcontrol/identity
     tag: latest
     pullPolicy: IfNotPresent
-  appModule: app.service_apps.identity:app
   replicaCount: 2
   service:
     port: 8000
@@ -76,10 +75,9 @@ identityService:
 
 financeService:
   image:
-    repository: spendcontrol/backend
+    repository: spendcontrol/finance
     tag: latest
     pullPolicy: IfNotPresent
-  appModule: app.service_apps.finance:app
   replicaCount: 2
   service:
     port: 8000
@@ -98,10 +96,9 @@ financeService:
 
 documentsService:
   image:
-    repository: spendcontrol/backend
+    repository: spendcontrol/documents
     tag: latest
     pullPolicy: IfNotPresent
-  appModule: app.service_apps.documents:app
   replicaCount: 2
   service:
     port: 8000
@@ -121,7 +118,7 @@ documentsService:
 migrationJob:
   enabled: true
   image:
-    repository: spendcontrol/backend
+    repository: spendcontrol/identity
     tag: latest
     pullPolicy: IfNotPresent
 

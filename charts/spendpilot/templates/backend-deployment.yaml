@@ -30,8 +30,6 @@ spec:
           env:
             - name: SERVICE_NAME
               value: identity-service
-            - name: APP_MODULE
-              value: {{ .Values.identityService.appModule | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "business-ai-app.configMapName" . }}
@@ -80,8 +78,6 @@ spec:
           env:
             - name: SERVICE_NAME
               value: finance-service
-            - name: APP_MODULE
-              value: {{ .Values.financeService.appModule | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "business-ai-app.configMapName" . }}
@@ -130,8 +126,6 @@ spec:
           env:
             - name: SERVICE_NAME
               value: documents-service
-            - name: APP_MODULE
-              value: {{ .Values.documentsService.appModule | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "business-ai-app.configMapName" . }}
