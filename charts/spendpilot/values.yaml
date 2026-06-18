@@ -137,7 +137,7 @@ routes:
 
 env:
   appEnv: production
-  backendCorsOrigins: https://example.z01.azurefd.net
+  backendCorsOrigins: https://myfinagent.online,https://www.myfinagent.online
   financeDefaultCurrency: INR
 
 auth:

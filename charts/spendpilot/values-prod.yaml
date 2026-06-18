@@ -1,6 +1,6 @@
 env:
   appEnv: production
-  backendCorsOrigins: https://example.z01.azurefd.net
+  backendCorsOrigins: https://fin.nexaflow.site,https://myfinagent.online,https://www.myfinagent.online
 
 auth:
   mode: entra
