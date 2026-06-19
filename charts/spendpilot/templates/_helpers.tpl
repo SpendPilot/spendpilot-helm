@@ -33,3 +33,14 @@ spend-control-secrets
 spend-control-secrets-provider
 {{- end -}}
 {{- end -}}
+
+{{- define "business-ai-app.imageRef" -}}
+{{- $repository := .repository -}}
+{{- $tag := .tag | default "" -}}
+{{- $digest := .digest | default "" -}}
+{{- if $digest -}}
+{{- printf "%s@%s" $repository $digest -}}
+{{- else -}}
+{{- printf "%s:%s" $repository $tag -}}
+{{- end -}}
+{{- end -}}

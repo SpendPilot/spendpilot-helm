@@ -34,6 +34,7 @@ frontend:
   image:
     repository: spendcontrol/frontend
     tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
   replicaCount: 2
   service:
@@ -56,6 +57,7 @@ identityService:
   image:
     repository: spendcontrol/identity
     tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
   replicaCount: 2
   service:
@@ -77,6 +79,7 @@ financeService:
   image:
     repository: spendcontrol/finance
     tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
   replicaCount: 2
   service:
@@ -98,6 +101,7 @@ documentsService:
   image:
     repository: spendcontrol/documents
     tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
   replicaCount: 2
   service:
@@ -120,6 +124,7 @@ migrationJob:
   image:
     repository: spendcontrol/identity
     tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
 
 routes:

@@ -7,13 +7,25 @@ auth:
   authority: https://login.microsoftonline.com/common
 
 frontend:
+  image:
+    digest: ""
   replicaCount: 2
 
 identityService:
+  image:
+    digest: ""
   replicaCount: 2
 
 financeService:
+  image:
+    digest: ""
   replicaCount: 2
 
 documentsService:
+  image:
+    digest: ""
   replicaCount: 2
+
+migrationJob:
+  image:
+    digest: ""
