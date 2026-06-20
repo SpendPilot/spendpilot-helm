@@ -1,6 +1,10 @@
+gateway:
+  hostnames:
+    - stage.costpilot.online
+
 env:
   appEnv: staging
-  backendCorsOrigins: https://staging.example.z01.azurefd.net
+  backendCorsOrigins: https://stage.costpilot.online
 
 auth:
   mode: entra

@@ -29,13 +29,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "business-ai-app.configMapName" . }}
+{{- with .Values.frontend.startupProbe }}
+          startupProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.frontend.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.frontend.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /
-              port: 3000
+{{ toYaml . | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.frontend.resources | indent 12 }}

@@ -7,6 +7,10 @@ metadata:
 spec:
   parentRefs:
     - name: {{ .Values.gateway.name }}
+{{- with .Values.gateway.hostnames }}
+  hostnames:
+{{ toYaml . | indent 4 }}
+{{- end }}
   rules:
 {{- range .Values.routes.identityPathPrefixes }}
     - matches:
@@ -26,6 +30,10 @@ metadata:
 spec:
   parentRefs:
     - name: {{ .Values.gateway.name }}
+{{- with .Values.gateway.hostnames }}
+  hostnames:
+{{ toYaml . | indent 4 }}
+{{- end }}
   rules:
 {{- range .Values.routes.financePathPrefixes }}
     - matches:
@@ -45,6 +53,10 @@ metadata:
 spec:
   parentRefs:
     - name: {{ .Values.gateway.name }}
+{{- with .Values.gateway.hostnames }}
+  hostnames:
+{{ toYaml . | indent 4 }}
+{{- end }}
   rules:
 {{- range .Values.routes.documentsPathPrefixes }}
     - matches:

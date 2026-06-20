@@ -50,14 +50,18 @@ spec:
                 name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
                 name: {{ include "business-ai-app.secretName" . }}
+{{- with .Values.identityService.startupProbe }}
+          startupProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.identityService.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.identityService.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.identityService.resources | indent 12 }}
 ---
@@ -113,14 +117,18 @@ spec:
                 name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
                 name: {{ include "business-ai-app.secretName" . }}
+{{- with .Values.financeService.startupProbe }}
+          startupProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.financeService.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.financeService.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.financeService.resources | indent 12 }}
 ---
@@ -176,14 +184,18 @@ spec:
                 name: {{ include "business-ai-app.configMapName" . }}
             - secretRef:
                 name: {{ include "business-ai-app.secretName" . }}
+{{- with .Values.documentsService.startupProbe }}
+          startupProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.documentsService.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.documentsService.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 8000
+{{ toYaml . | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.documentsService.resources | indent 12 }}
 {{- if .Values.migrationJob.enabled }}

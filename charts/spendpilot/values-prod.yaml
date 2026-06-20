@@ -1,6 +1,10 @@
+gateway:
+  hostnames:
+    - costpilot.online
+
 env:
   appEnv: production
-  backendCorsOrigins: https://fin.nexaflow.site,https://myfinagent.online,https://www.myfinagent.online
+  backendCorsOrigins: https://costpilot.online
 
 auth:
   mode: entra
@@ -10,6 +14,11 @@ frontend:
   image:
     digest: ""
   replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 70
 
 identityService:
   image:

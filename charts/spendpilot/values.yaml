@@ -6,6 +6,7 @@ gateway:
   enabled: true
   className: kgateway
   name: spend-control-gateway
+  hostnames: []
   listener:
     port: 80
     protocol: HTTP
@@ -46,6 +47,24 @@ frontend:
     limits:
       cpu: 500m
       memory: 512Mi
+  startupProbe:
+    httpGet:
+      path: /runtime-config
+      port: 3000
+    periodSeconds: 5
+    failureThreshold: 24
+  readinessProbe:
+    httpGet:
+      path: /runtime-config
+      port: 3000
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /runtime-config
+      port: 3000
+    periodSeconds: 20
+    failureThreshold: 3
   autoscaling:
     enabled: false
     minReplicas: 2
@@ -65,10 +84,28 @@ identityService:
   resources:
     requests:
       cpu: 100m
-      memory: 192Mi
+      memory: 128Mi
     limits:
-      cpu: 750m
-      memory: 768Mi
+      cpu: 500m
+      memory: 512Mi
+  startupProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 5
+    failureThreshold: 24
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8000
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 20
+    failureThreshold: 3
   autoscaling:
     enabled: false
     minReplicas: 2
@@ -87,10 +124,28 @@ financeService:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 192Mi
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 512Mi
+  startupProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 5
+    failureThreshold: 24
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8000
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 20
+    failureThreshold: 3
   autoscaling:
     enabled: false
     minReplicas: 2
@@ -108,11 +163,29 @@ documentsService:
     port: 8000
   resources:
     requests:
-      cpu: 150m
-      memory: 256Mi
+      cpu: 100m
+      memory: 192Mi
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 512Mi
+  startupProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 5
+    failureThreshold: 24
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8000
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    periodSeconds: 20
+    failureThreshold: 3
   autoscaling:
     enabled: false
     minReplicas: 2
@@ -142,7 +215,7 @@ routes:
 
 env:
   appEnv: production
-  backendCorsOrigins: https://myfinagent.online,https://www.myfinagent.online
+  backendCorsOrigins: https://costpilot.online
   financeDefaultCurrency: INR
 
 auth:

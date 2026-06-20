@@ -1,6 +1,10 @@
+gateway:
+  hostnames:
+    - dev.costpilot.online
+
 env:
   appEnv: development
-  backendCorsOrigins: http://localhost:3000
+  backendCorsOrigins: http://localhost:3000,https://dev.costpilot.online
 
 auth:
   mode: dev-local
@@ -9,22 +13,27 @@ auth:
 frontend:
   image:
     digest: ""
-  replicaCount: 1
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 70
 
 identityService:
   image:
     digest: ""
-  replicaCount: 1
+  replicaCount: 2
 
 financeService:
   image:
     digest: ""
-  replicaCount: 1
+  replicaCount: 2
 
 documentsService:
   image:
     digest: ""
-  replicaCount: 1
+  replicaCount: 2
 
 migrationJob:
   image:
