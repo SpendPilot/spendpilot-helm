@@ -33,6 +33,7 @@ Important values:
 - `serviceAccount.create`
 - `secrets.create` and `secrets.existingSecretName`
 - `keyVault.enabled`, `keyVault.name`, and `azure.managedIdentityClientId` for Azure Key Vault-backed runtime secrets
+- `notifications.enabled`, `notifications.serviceBusFullyQualifiedNamespace`, and `notifications.serviceBusQueueName` for async email publishing
 
 Platform bootstrap note:
 

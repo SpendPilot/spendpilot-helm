@@ -238,6 +238,11 @@ azure:
   storageAccountUrl: ""
   storageContainerName: expense-documents
 
+notifications:
+  enabled: false
+  serviceBusFullyQualifiedNamespace: ""
+  serviceBusQueueName: email-requests
+
 keyVault:
   enabled: false
   name: ""

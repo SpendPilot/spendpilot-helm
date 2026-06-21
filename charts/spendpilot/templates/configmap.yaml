@@ -22,6 +22,9 @@ data:
   AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: {{ .Values.azure.documentIntelligenceEndpoint | quote }}
   AZURE_STORAGE_ACCOUNT_URL: {{ .Values.azure.storageAccountUrl | quote }}
   AZURE_STORAGE_CONTAINER_NAME: {{ .Values.azure.storageContainerName | quote }}
+  EMAIL_NOTIFICATIONS_ENABLED: {{ .Values.notifications.enabled | quote }}
+  AZURE_SERVICE_BUS_FULLY_QUALIFIED_NAMESPACE: {{ .Values.notifications.serviceBusFullyQualifiedNamespace | quote }}
+  AZURE_SERVICE_BUS_QUEUE_NAME: {{ .Values.notifications.serviceBusQueueName | quote }}
   FINANCE_DEFAULT_CURRENCY: {{ .Values.env.financeDefaultCurrency | quote }}
   NEXT_PUBLIC_API_BASE_URL: {{ .Values.frontend.nextPublicApiBaseUrl | quote }}
   NEXT_PUBLIC_AUTH_MODE: {{ .Values.auth.mode | quote }}
