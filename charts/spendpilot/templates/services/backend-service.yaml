@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spend-control-identity
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   type: ClusterIP
   selector:
@@ -16,7 +16,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spend-control-finance
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   type: ClusterIP
   selector:
@@ -30,7 +30,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spend-control-documents
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   type: ClusterIP
   selector:

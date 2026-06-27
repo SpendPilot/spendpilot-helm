@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spend-control-identity
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.identityService.replicaCount }}
   selector:
@@ -16,7 +16,7 @@ spec:
         app.kubernetes.io/name: spend-control-identity
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: {{ include "business-ai-app.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
@@ -28,11 +28,11 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+              secretProviderClass: {{ .Values.keyVault.secretProviderClassName }}
 {{- end }}
       containers:
         - name: identity
-          image: {{ include "business-ai-app.imageRef" .Values.identityService.image | quote }}
+          image: {{ if .Values.identityService.image.digest }}{{ printf "%s@%s" .Values.identityService.image.repository .Values.identityService.image.digest | quote }}{{ else }}{{ printf "%s:%s" .Values.identityService.image.repository .Values.identityService.image.tag | quote }}{{ end }}
           imagePullPolicy: {{ .Values.identityService.image.pullPolicy }}
           ports:
             - containerPort: 8000
@@ -47,9 +47,9 @@ spec:
               value: identity-service
           envFrom:
             - configMapRef:
-                name: {{ include "business-ai-app.configMapName" . }}
+                name: {{ .Values.config.existingConfigMapName }}
             - secretRef:
-                name: {{ include "business-ai-app.secretName" . }}
+                name: {{ .Values.secrets.existingSecretName }}
 {{- with .Values.identityService.startupProbe }}
           startupProbe:
 {{ toYaml . | indent 12 }}
@@ -69,7 +69,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spend-control-finance
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.financeService.replicaCount }}
   selector:
@@ -83,7 +83,7 @@ spec:
         app.kubernetes.io/name: spend-control-finance
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: {{ include "business-ai-app.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
@@ -95,11 +95,11 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+              secretProviderClass: {{ .Values.keyVault.secretProviderClassName }}
 {{- end }}
       containers:
         - name: finance
-          image: {{ include "business-ai-app.imageRef" .Values.financeService.image | quote }}
+          image: {{ if .Values.financeService.image.digest }}{{ printf "%s@%s" .Values.financeService.image.repository .Values.financeService.image.digest | quote }}{{ else }}{{ printf "%s:%s" .Values.financeService.image.repository .Values.financeService.image.tag | quote }}{{ end }}
           imagePullPolicy: {{ .Values.financeService.image.pullPolicy }}
           ports:
             - containerPort: 8000
@@ -114,9 +114,9 @@ spec:
               value: finance-service
           envFrom:
             - configMapRef:
-                name: {{ include "business-ai-app.configMapName" . }}
+                name: {{ .Values.config.existingConfigMapName }}
             - secretRef:
-                name: {{ include "business-ai-app.secretName" . }}
+                name: {{ .Values.secrets.existingSecretName }}
 {{- with .Values.financeService.startupProbe }}
           startupProbe:
 {{ toYaml . | indent 12 }}
@@ -136,7 +136,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spend-control-documents
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.documentsService.replicaCount }}
   selector:
@@ -150,7 +150,7 @@ spec:
         app.kubernetes.io/name: spend-control-documents
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: {{ include "business-ai-app.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
@@ -162,11 +162,11 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+              secretProviderClass: {{ .Values.keyVault.secretProviderClassName }}
 {{- end }}
       containers:
         - name: documents
-          image: {{ include "business-ai-app.imageRef" .Values.documentsService.image | quote }}
+          image: {{ if .Values.documentsService.image.digest }}{{ printf "%s@%s" .Values.documentsService.image.repository .Values.documentsService.image.digest | quote }}{{ else }}{{ printf "%s:%s" .Values.documentsService.image.repository .Values.documentsService.image.tag | quote }}{{ end }}
           imagePullPolicy: {{ .Values.documentsService.image.pullPolicy }}
           ports:
             - containerPort: 8000
@@ -181,9 +181,9 @@ spec:
               value: documents-service
           envFrom:
             - configMapRef:
-                name: {{ include "business-ai-app.configMapName" . }}
+                name: {{ .Values.config.existingConfigMapName }}
             - secretRef:
-                name: {{ include "business-ai-app.secretName" . }}
+                name: {{ .Values.secrets.existingSecretName }}
 {{- with .Values.documentsService.startupProbe }}
           startupProbe:
 {{ toYaml . | indent 12 }}
@@ -204,7 +204,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: spend-control-migrate
-  namespace: {{ include "business-ai-app.namespace" . }}
+  namespace: {{ .Values.namespace.name }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -217,7 +217,7 @@ spec:
         azure.workload.identity/use: "true"
     spec:
       restartPolicy: OnFailure
-      serviceAccountName: {{ include "business-ai-app.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
@@ -229,11 +229,11 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: {{ include "business-ai-app.secretProviderClassName" . }}
+              secretProviderClass: {{ .Values.keyVault.secretProviderClassName }}
 {{- end }}
       containers:
         - name: migrate
-          image: {{ include "business-ai-app.imageRef" .Values.migrationJob.image | quote }}
+          image: {{ if .Values.migrationJob.image.digest }}{{ printf "%s@%s" .Values.migrationJob.image.repository .Values.migrationJob.image.digest | quote }}{{ else }}{{ printf "%s:%s" .Values.migrationJob.image.repository .Values.migrationJob.image.tag | quote }}{{ end }}
           imagePullPolicy: {{ .Values.migrationJob.image.pullPolicy }}
           command: ["sh", "-c", "alembic upgrade head"]
 {{- if .Values.keyVault.enabled }}
@@ -247,7 +247,7 @@ spec:
               value: migration-job
           envFrom:
             - configMapRef:
-                name: {{ include "business-ai-app.configMapName" . }}
+                name: {{ .Values.config.existingConfigMapName }}
             - secretRef:
-                name: {{ include "business-ai-app.secretName" . }}
+                name: {{ .Values.secrets.existingSecretName }}
 {{- end }}
