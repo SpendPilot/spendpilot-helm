@@ -1,0 +1,25 @@
+{{- if and .Values.gateway.enabled .Values.gateway.healthProbeRoute.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: spend-control-health-probe
+  namespace: {{ .Values.namespace.name }}
+spec:
+  parentRefs:
+    - name: {{ .Values.gateway.name }}
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: "/health"
+      backendRefs:
+        - name: spend-control-identity
+          port: {{ .Values.identityService.service.port }}
+    - matches:
+        - path:
+            type: Exact
+            value: "/ready"
+      backendRefs:
+        - name: spend-control-identity
+          port: {{ .Values.identityService.service.port }}
+{{- end }}

@@ -6,7 +6,10 @@ gateway:
   enabled: true
   className: kgateway
   name: spend-control-gateway
+  infrastructureParametersRef: {}
   hostnames: []
+  healthProbeRoute:
+    enabled: false
   listener:
     port: 80
     protocol: HTTP
@@ -24,7 +27,7 @@ serviceAccount:
 
 config:
   create: true
-  existingConfigMapName: ""
+  existingConfigMapName: spend-control-config
 
 imagePullSecrets: []
 
@@ -253,6 +256,6 @@ keyVault:
 
 secrets:
   create: true
-  existingSecretName: ""
+  existingSecretName: spend-control-secrets
   databaseUrl: ""
   devAuthSecret: "dev-only-secret-change-me"
